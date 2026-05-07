@@ -44,6 +44,8 @@ Normal workload with 5 processes, different arrival times, burst times, and prio
 | P4  | 3       | 5     | 4        |
 | P5  | 4       | 2     | 5        |
 
+![Scenario A](scenario-a-basic.png.png)
+
 | Metric | SJF | Priority |
 |--------|-----|----------|
 | Avg Waiting Time | 8.20 | 11.20 |
@@ -55,7 +57,7 @@ Normal workload with 5 processes, different arrival times, burst times, and prio
 ---
 
 ### Scenario B — Conflict Between Burst Time and Priority
-Short-burst low-priority process vs long-burst high-priority process — reveals the key difference between the two algorithms.
+Short-burst low-priority process vs long-burst high-priority process.
 
 | PID | Arrival | Burst | Priority |
 |-----|---------|-------|----------|
@@ -64,18 +66,20 @@ Short-burst low-priority process vs long-burst high-priority process — reveals
 | P3  | 1       | 3     | 4        |
 | P4  | 2       | 1     | 3        |
 
+![Scenario B](scenario-b-conflict.png.png)
+
 | Metric | SJF | Priority |
 |--------|-----|----------|
 | Avg Waiting Time | 2.00 | 8.00 |
 | Avg Turnaround Time | 6.00 | 12.00 |
 | Avg Response Time | 2.00 | 8.00 |
 
-**Observation:** SJF significantly outperforms Priority here because it serves short jobs first regardless of priority. Priority forces long high-priority jobs to run first, increasing wait time for all others.
+**Observation:** SJF significantly outperforms Priority. Priority forces long high-priority jobs to run first, increasing wait time for all others.
 
 ---
 
 ### Scenario C — Starvation-Sensitive Case
-Workload designed to reveal starvation risk — a low-priority process may wait much longer under Priority Scheduling.
+Workload designed to reveal starvation risk under Priority Scheduling.
 
 | PID | Arrival | Burst | Priority |
 |-----|---------|-------|----------|
@@ -85,22 +89,25 @@ Workload designed to reveal starvation risk — a low-priority process may wait 
 | P4  | 0       | 2     | 1        |
 | P5  | 0       | 6     | 2        |
 
+![Scenario C](scenario-c-starvation.png.png)
+
 | Metric | SJF | Priority |
 |--------|-----|----------|
 | Avg Waiting Time | 6.00 | 6.80 |
 | Avg Turnaround Time | 10.00 | 10.80 |
 | Avg Response Time | 6.00 | 6.80 |
 
-**Observation:** Starvation risk detected in both algorithms. SJF still produces slightly better metrics.
+**Observation:** Starvation risk detected. SJF produces slightly better metrics.
 
 ---
 
 ### Scenario D — Validation Case
 Invalid input is loaded to verify the simulator rejects bad data safely.
 
-Invalid inputs used:
 - P2: negative arrival time (-2)
 - P3: non-numeric burst time (abc)
+
+![Scenario D](scenario-d-validation.png.png)
 
 **Result:** Simulator correctly detected and reported both errors before running the simulation.
 
@@ -118,14 +125,14 @@ Invalid inputs used:
 
 | Metric | Winner |
 |--------|--------|
-| Avg Waiting Time | SJF (better in all scenarios) |
-| Avg Turnaround Time | SJF (better in all scenarios) |
-| Avg Response Time | SJF (better in most scenarios) |
+| Avg Waiting Time | SJF |
+| Avg Turnaround Time | SJF |
+| Avg Response Time | SJF |
 | Urgent task treatment | Priority Scheduling |
 | Fairness | SJF |
 
 - **SJF** consistently produced lower average WT and TAT by favouring short jobs
-- **Priority Scheduling** ensures urgent processes are served first, but causes higher average wait for other processes
+- **Priority Scheduling** ensures urgent processes are served first but causes higher average wait for others
 - **Main trade-off:** SJF optimises for efficiency; Priority optimises for urgency
 - **Starvation risk** was observed in both algorithms under certain workloads
-- **Recommendation:** For general-purpose workloads, SJF is more efficient. For real-time or urgent-task systems, Priority Scheduling is more appropriate.
+- **Recommendation:** For general-purpose workloads, SJF is more efficient. For real-time systems, Priority Scheduling is more appropriate.
