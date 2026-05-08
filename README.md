@@ -2,7 +2,7 @@
 
 ## Project Overview
 This project implements and compares two CPU scheduling algorithms:
-- **Shortest Job First (SJF)** — non-preemptive
+- **Shortest Job First (SJF)** — preemptive
 - **Priority Scheduling** — preemptive (lower number = higher urgency)
 
 Both algorithms run on the same workload to produce a valid comparison.
@@ -16,7 +16,7 @@ Both algorithms run on the same workload to produce a valid comparison.
 4. ---
 
 ## Assumptions
-- SJF is **non-preemptive**
+- SJF is **preemptive**
 - Priority Scheduling is **preemptive**
 - Lower priority number = higher urgency (Priority 1 = most urgent)
 - Ties in burst time (SJF) are broken by arrival time (FCFS)
