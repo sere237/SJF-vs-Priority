@@ -18,7 +18,7 @@ public class PriorityScheduling {
         public int waitingTime, turnaroundTime, responseTime;
 
         ProcessResult(Process p) {
-            this.pid            = p.id;  // Process uses 'id' field
+            this.pid            = p.id;  
             this.arrivalTime    = p.arrivalTime;
             this.burstTime      = p.burstTime;
             this.priority       = p.priority;
@@ -34,7 +34,6 @@ public class PriorityScheduling {
                   .thenComparing(p -> p.id);
 
     public List<ProcessResult> simulate(List<Process> processes, List<GanttEntry> gantt) {
-        // reset
         for (Process p : processes) {
             p.remainingTime = p.burstTime;
             p.startTime     = -1;
