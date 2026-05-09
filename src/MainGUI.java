@@ -9,7 +9,6 @@ import java.util.List;
 
 public class MainGUI extends JFrame {
 
-    // ── tables & display ────────────────────────────────────────────────────
     private JTable inputTable;
     private JTable sjfResultTable, priResultTable, compTable;
     private GanttChartPanel ganttSJFPanel, ganttPRIPanel;
@@ -28,16 +27,12 @@ public class MainGUI extends JFrame {
         setVisible(true);
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    //  LEFT PANEL — input
-    // ════════════════════════════════════════════════════════════════════════
     private JPanel buildLeft() {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
         p.setPreferredSize(new Dimension(360, 820));
         p.setBorder(BorderFactory.createTitledBorder("Control Panel"));
 
-        // ── process count ──
         JPanel countRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
         countRow.add(new JLabel("Number of Processes:"));
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(4, 1, 10, 1));
@@ -46,7 +41,6 @@ public class MainGUI extends JFrame {
         countRow.add(applyBtn);
         p.add(countRow);
 
-        // ── input table ──
         String[] cols = {"PID", "Arrival", "Burst", "Priority"};
         DefaultTableModel inputModel = new DefaultTableModel(cols, 0);
         inputTable = new JTable(inputModel);
@@ -57,7 +51,6 @@ public class MainGUI extends JFrame {
         p.add(inputScroll);
         p.add(Box.createVerticalStrut(8));
 
-        // ── scenario buttons ──
         p.add(new JLabel("  Load Test Scenario:"));
         JPanel scenPanel = new JPanel(new GridLayout(2, 2, 5, 5));
         scenPanel.setBorder(new EmptyBorder(4, 8, 4, 8));
@@ -73,7 +66,6 @@ public class MainGUI extends JFrame {
         p.add(scenPanel);
         p.add(Box.createVerticalStrut(12));
 
-        // ── run button ──
         JButton runBtn = new JButton("▶  Run Simulation");
         runBtn.setFont(new Font("Arial", Font.BOLD, 14));
         runBtn.setBackground(new Color(66, 133, 244));
@@ -82,7 +74,6 @@ public class MainGUI extends JFrame {
         runBtn.addActionListener(e -> runSimulation(inputModel));
         p.add(runBtn);
 
-        // ── apply action ──
         applyBtn.addActionListener(e -> {
             int cnt = (int) spinner.getValue();
             inputModel.setRowCount(0);
@@ -90,16 +81,12 @@ public class MainGUI extends JFrame {
                 inputModel.addRow(new Object[]{"P" + i, "", "", ""});
         });
 
-        // default rows
         for (int i = 1; i <= 4; i++)
             inputModel.addRow(new Object[]{"P" + i, "", "", ""});
 
         return p;
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    //  RIGHT PANEL — results
-    // ════════════════════════════════════════════════════════════════════════
     private JScrollPane buildRight() {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -122,14 +109,12 @@ public class MainGUI extends JFrame {
         JPanel card = new JPanel(new BorderLayout(0, 4));
         card.setBorder(BorderFactory.createTitledBorder(title));
 
-        // gantt visual panel
         GanttChartPanel gantt = new GanttChartPanel();
         JScrollPane gScroll = new JScrollPane(gantt);
         gScroll.setPreferredSize(new Dimension(700, 100));
         gScroll.getHorizontalScrollBar().setUnitIncrement(16);
         gScroll.setBorder(BorderFactory.createTitledBorder("Gantt Chart"));
 
-        // result table
         String[] cols = isSJF
             ? new String[]{"PID","Arrival","Burst","Start","Finish","WT","TAT","RT"}
             : new String[]{"PID","Arrival","Burst","Priority","Start","Finish","WT","TAT","RT"};
@@ -193,18 +178,11 @@ public class MainGUI extends JFrame {
         return card;
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    //  SCENARIOS
-    // ════════════════════════════════════════════════════════════════════════
     private void loadScenario(int idx, DefaultTableModel model, JSpinner spinner) {
         Object[][][] data = {
-            // A: basic
             {{"P1","0","8","3"},{"P2","1","4","1"},{"P3","2","9","2"},{"P4","3","5","4"},{"P5","4","2","5"}},
-            // B: conflict
             {{"P1","0","2","5"},{"P2","0","10","1"},{"P3","1","3","4"},{"P4","2","1","3"}},
-            // C: starvation
             {{"P1","0","5","3"},{"P2","0","3","1"},{"P3","0","4","1"},{"P4","0","2","1"},{"P5","0","6","2"}},
-            // D: validation (bad data)
             {{"P1","0","5","1"},{"P2","-2","3","2"},{"P3","1","abc","3"}}
         };
 
@@ -223,11 +201,7 @@ public class MainGUI extends JFrame {
         for (Object[] row : data[idx]) model.addRow(row);
     }
 
-    // ════════════════════════════════════════════════════════════════════════
-    //  RUN SIMULATION
-    // ════════════════════════════════════════════════════════════════════════
     private void runSimulation(DefaultTableModel model) {
-        // ── parse & validate ──────────────────────────────────────────────
         List<Process> sjfProcs = new ArrayList<>();
         List<Process> priProcs = new ArrayList<>();
         StringBuilder errors   = new StringBuilder();
@@ -259,32 +233,26 @@ public class MainGUI extends JFrame {
             return;
         }
 
-        // ── run SJF ───────────────────────────────────────────────────────
         SJF sjf = new SJF();
         List<SJF.GanttEntry> sjfGantt = new ArrayList<>();
         List<Process> sjfResult = sjf.schedule(sjfProcs, sjfGantt);
         double[] sjfAvg = sjf.calculateAverages(sjfResult);
 
-        // ── run Priority ──────────────────────────────────────────────────
         PriorityScheduling ps = new PriorityScheduling();
         List<PriorityScheduling.GanttEntry> priGantt = new ArrayList<>();
         List<PriorityScheduling.ProcessResult> priResult = ps.simulate(priProcs, priGantt);
         double[] priAvg = ps.calculateAverages(priResult);
 
-        // ── fill SJF Gantt ────────────────────────────────────────────────
         ganttSJFPanel.loadFromSJF(sjfGantt);
 
-        // ── fill Priority Gantt ───────────────────────────────────────────
         ganttPRIPanel.loadFromPriority(priGantt);
 
-        // ── fill SJF table ────────────────────────────────────────────────
         DefaultTableModel m1 = (DefaultTableModel) sjfResultTable.getModel();
         m1.setRowCount(0);
         for (Process p : sjfResult)
             m1.addRow(new Object[]{p.id, p.arrivalTime, p.burstTime, p.startTime, p.finishTime, p.waitingTime, p.TAT, p.Rs});
         sjfAvgLabel.setText(String.format("Avg WT: %.2f  |  Avg TAT: %.2f  |  Avg RT: %.2f", sjfAvg[0], sjfAvg[1], sjfAvg[2]));
 
-        // ── fill Priority table ───────────────────────────────────────────
         DefaultTableModel m2 = (DefaultTableModel) priResultTable.getModel();
         m2.setRowCount(0);
         for (PriorityScheduling.ProcessResult r : priResult) {
@@ -292,14 +260,12 @@ public class MainGUI extends JFrame {
             m2.addRow(new Object[]{r.pid, r.arrivalTime, r.burstTime, r.priority, startTime, r.arrivalTime + r.turnaroundTime, r.waitingTime, r.turnaroundTime, r.responseTime});}
         priAvgLabel.setText(String.format("Avg WT: %.2f  |  Avg TAT: %.2f  |  Avg RT: %.2f", priAvg[0], priAvg[1], priAvg[2]));
 
-        // ── comparison table ──────────────────────────────────────────────
         DefaultTableModel cm = (DefaultTableModel) compTable.getModel();
         cm.setRowCount(0);
         cm.addRow(new Object[]{"Avg Waiting Time",     String.format("%.2f", sjfAvg[0]), String.format("%.2f", priAvg[0])});
         cm.addRow(new Object[]{"Avg Turnaround Time",  String.format("%.2f", sjfAvg[1]), String.format("%.2f", priAvg[1])});
         cm.addRow(new Object[]{"Avg Response Time",    String.format("%.2f", sjfAvg[2]), String.format("%.2f", priAvg[2])});
 
-        // ── analysis ─────────────────────────────────────────────────────
         StringBuilder analysis = new StringBuilder();
         analysis.append("=== ANALYSIS ===\n\n");
         analysis.append(sjfAvg[0] <= priAvg[0]
@@ -312,14 +278,12 @@ public class MainGUI extends JFrame {
             ? "✔ SJF gives better response time — processes start sooner on average.\n"
             : "✔ Priority gives better response time for high-priority processes.\n");
 
-        // starvation check
         boolean sjfStarve = sjfResult.stream().anyMatch(p -> p.waitingTime > 2 * sjfAvg[0] + 1);
         boolean priStarve = priResult.stream().anyMatch(r -> r.waitingTime > 2 * priAvg[0] + 1);
         analysis.append("\nStarvation risk — SJF: ").append(sjfStarve ? "⚠ YES" : "✔ No").append("\n");
         analysis.append("Starvation risk — Priority: ").append(priStarve ? "⚠ YES" : "✔ No").append("\n");
         analysisArea.setText(analysis.toString());
 
-        // ── conclusion ────────────────────────────────────────────────────
         StringBuilder conc = new StringBuilder();
         String betterWT  = sjfAvg[0] <= priAvg[0] ? "SJF" : "Priority";
         String betterTAT = sjfAvg[1] <= priAvg[1] ? "SJF" : "Priority";
