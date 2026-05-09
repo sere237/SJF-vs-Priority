@@ -1,5 +1,16 @@
 # SJF vs Priority Scheduling — Comparison Project
 
+## Team Members
+- Salma Alaa Hamdi Ahmed
+- Habibat Allah Ahmed Hamed
+- Sara Ashraf Saad Abd El Khalek
+- Basmala Mahmoud Mohamed Adel
+- Salma Yousry Ismail Fahim
+- Rodaina Shazly Mohamed
+- Alaa Sayed Anwar
+
+---
+
 ## Project Overview
 This project implements and compares two CPU scheduling algorithms:
 - **Shortest Job First (SJF)** — preemptive
@@ -9,11 +20,18 @@ Both algorithms run on the same workload to produce a valid comparison.
 
 ---
 
+## Requirements
+- Java 24
+- No external libraries required
+
+---
+
 ## How to Run
-1. Make sure Java is installed
-2. Open Command Prompt
-3. Run:
-4. ---
+1. Make sure Java 24 is installed
+2. Open the project folder in your IDE
+3. Open `MainGUI.java`
+4. Right-click → Run
+5. ---
 
 ## Assumptions
 - SJF is **preemptive**
@@ -44,13 +62,13 @@ Normal workload with 5 processes, different arrival times, burst times, and prio
 | P4  | 3       | 5     | 4        |
 | P5  | 4       | 2     | 5        |
 
-![Scenario A](scenario-a-basic.png.png)
+![Scenario A](scenario-a-basic.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
-| Avg Waiting Time | 8.20 | 11.20 |
-| Avg Turnaround Time | 13.80 | 16.80 |
-| Avg Response Time | 8.20 | 8.60 |
+| Avg Waiting Time | 6.60 | 11.20 |
+| Avg Turnaround Time | 12.20 | 16.80 |
+| Avg Response Time | 4.40 | 8.60 |
 
 **Observation:** SJF outperforms Priority on all three metrics in this workload.
 
@@ -66,7 +84,7 @@ Short-burst low-priority process vs long-burst high-priority process.
 | P3  | 1       | 3     | 4        |
 | P4  | 2       | 1     | 3        |
 
-![Scenario B](scenario-b-conflict.png.png)
+![Scenario B](scenario-b-conflict.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
@@ -89,7 +107,7 @@ Workload designed to reveal starvation risk under Priority Scheduling.
 | P4  | 0       | 2     | 1        |
 | P5  | 0       | 6     | 2        |
 
-![Scenario C](scenario-c-starvation.png.png)
+![Scenario C](scenario-c-starvation.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
@@ -97,7 +115,7 @@ Workload designed to reveal starvation risk under Priority Scheduling.
 | Avg Turnaround Time | 10.00 | 10.80 |
 | Avg Response Time | 6.00 | 6.80 |
 
-**Observation:** Starvation risk detected. SJF produces slightly better metrics.
+**Observation:** Starvation risk detected in both algorithms. SJF produces slightly better metrics.
 
 ---
 
@@ -107,7 +125,7 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - P2: negative arrival time (-2)
 - P3: non-numeric burst time (abc)
 
-![Scenario D](scenario-d-validation.png.png)
+![Scenario D](scenario-d-validation.jpeg)
 
 **Result:** Simulator correctly detected and reported both errors before running the simulation.
 
@@ -136,3 +154,6 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - **Main trade-off:** SJF optimises for efficiency; Priority optimises for urgency
 - **Starvation risk** was observed in both algorithms under certain workloads
 - **Recommendation:** For general-purpose workloads, SJF is more efficient. For real-time systems, Priority Scheduling is more appropriate.
+3. Open Command Prompt
+4. Navigate to the project folder
+5. Run:
