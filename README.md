@@ -62,7 +62,7 @@ Normal workload with 5 processes, different arrival times, burst times, and prio
 | P4  | 3       | 5     | 4        |
 | P5  | 4       | 2     | 5        |
 
-![Scenario A](scenario-a-basic.jpeg)
+![Scenario A](screenshots/scenario-a-basic.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
@@ -84,7 +84,7 @@ Short-burst low-priority process vs long-burst high-priority process.
 | P3  | 1       | 3     | 4        |
 | P4  | 2       | 1     | 3        |
 
-![Scenario B](scenario-b-conflict.jpeg)
+![Scenario B](screenshots/scenario-b-conflict.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
@@ -107,7 +107,7 @@ Workload designed to reveal starvation risk under Priority Scheduling.
 | P4  | 0       | 2     | 1        |
 | P5  | 0       | 6     | 2        |
 
-![Scenario C](scenario-c-starvation.jpeg)
+![Scenario C](screenshots/scenario-c-starvation.jpeg)
 
 | Metric | SJF | Priority |
 |--------|-----|----------|
@@ -125,7 +125,7 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - P2: negative arrival time (-2)
 - P3: non-numeric burst time (abc)
 
-![Scenario D](scenario-d-validation.jpeg)
+![Scenario D](screenshots/scenario-d-validation.jpeg)
 
 **Result:** Simulator correctly detected and reported both errors before running the simulation.
 
