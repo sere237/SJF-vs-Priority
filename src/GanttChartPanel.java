@@ -5,11 +5,6 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-/**
- * Visual Gantt Chart Panel - colored bars, proportional widths.
- * Size is calculated ONCE in loadFrom methods, never inside paintComponent,
- * to avoid the infinite resize loop.
- */
 public class GanttChartPanel extends JPanel {
 
     public static class Entry {
@@ -72,7 +67,6 @@ public class GanttChartPanel extends JPanel {
         repaint();
     }
 
-    // Called ONCE after data loads - NEVER inside paintComponent
     private void recalcSize() {
         if (entries.isEmpty()) return;
         int totalTime = entries.get(entries.size() - 1).end;
@@ -124,20 +118,16 @@ public class GanttChartPanel extends JPanel {
             boolean isIdle = e.pid.equals("idle");
             Color fill = isIdle ? IDLE_COLOR : colorMap.getOrDefault(e.pid, PALETTE[0]);
 
-            // shadow
             g2.setColor(new Color(0, 0, 0, 30));
             g2.fillRoundRect(x + 2, barY + 2, w - 2, BAR_HEIGHT, 10, 10);
 
-            // bar
             g2.setColor(fill);
             g2.fillRoundRect(x, barY, w - 2, BAR_HEIGHT, 10, 10);
 
-            // border
             g2.setColor(fill.darker());
             g2.setStroke(new BasicStroke(1.2f));
             g2.drawRoundRect(x, barY, w - 2, BAR_HEIGHT, 10, 10);
 
-            // label
             g2.setFont(labelFont);
             g2.setColor(isIdle ? IDLE_TEXT : TEXT_COLOR);
             int lw = lFm.stringWidth(e.pid);
@@ -146,7 +136,6 @@ public class GanttChartPanel extends JPanel {
                               barY + BAR_HEIGHT / 2 + lFm.getAscent() / 2 - 2);
         }
 
-        // time labels - no revalidate/setPreferredSize here
         g2.setFont(timeFont);
         Set<Integer> drawn = new HashSet<>();
         for (Entry e : entries) {
