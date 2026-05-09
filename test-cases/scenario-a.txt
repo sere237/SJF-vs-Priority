@@ -1,0 +1,9 @@
+Scenario A - Basic Mixed Workload
+Processes: 5
+
+PID  Arrival  Burst  Priority
+P1   0        8      3
+P2   1        4      1
+P3   2        9      2
+P4   3        5      4
+P5   4        2      5
