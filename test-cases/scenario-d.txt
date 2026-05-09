@@ -1,0 +1,8 @@
+Scenario D - Validation Case
+Processes: 3
+(Contains invalid data to test input validation)
+
+PID  Arrival  Burst  Priority
+P1   0        5      1
+P2   -2       3      2
+P3   1        abc    3
