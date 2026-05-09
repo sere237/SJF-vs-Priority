@@ -154,6 +154,5 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - **Main trade-off:** SJF optimises for efficiency; Priority optimises for urgency
 - **Starvation risk** was observed in both algorithms under certain workloads
 - **Recommendation:** For general-purpose workloads, SJF is more efficient. For real-time systems, Priority Scheduling is more appropriate.
-3. Open Command Prompt
 4. Navigate to the project folder
 5. Run:
