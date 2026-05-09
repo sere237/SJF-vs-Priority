@@ -31,7 +31,8 @@ Both algorithms run on the same workload to produce a valid comparison.
 2. Open the project folder in your IDE
 3. Open `MainGUI.java`
 4. Right-click → Run
-5. ---
+
+---
 
 ## Assumptions
 - SJF is **preemptive**
@@ -135,7 +136,6 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - The simulator does not support I/O bursts or context switch overhead
 - Gantt chart is static (not animated)
 - Results table requires scrolling when process count is high
-- Must be launched via command line with `-Duser.language=en` flag on Arabic-locale machines
 
 ---
 
@@ -154,5 +154,3 @@ Invalid input is loaded to verify the simulator rejects bad data safely.
 - **Main trade-off:** SJF optimises for efficiency; Priority optimises for urgency
 - **Starvation risk** was observed in both algorithms under certain workloads
 - **Recommendation:** For general-purpose workloads, SJF is more efficient. For real-time systems, Priority Scheduling is more appropriate.
-4. Navigate to the project folder
-5. Run:
