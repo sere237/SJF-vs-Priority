@@ -5,15 +5,11 @@ public class Process {
     public int arrivalTime;
     public int burstTime;
     public int priority;
-
-    // computed
     public int startTime;
     public int finishTime;
     public int waitingTime;
     public int TAT;
     public int Rs;
-
-    // for priority preemptive
     public int remainingTime;
 
     public Process(String id, int arrivalTime, int burstTime) {
